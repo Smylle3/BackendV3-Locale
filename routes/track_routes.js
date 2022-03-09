@@ -5,7 +5,6 @@ var QRCode = require("qrcode");
 var QRImage = require("qr-image");
 
 router.post("/new-track", (req, res) => {
-  console.log(req.body)
   db.Track.create({
     UserId: req.body.UserId,
     code: req.body.code,
