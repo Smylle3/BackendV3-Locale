@@ -5,6 +5,7 @@ var QRCode = require("qrcode");
 var QRImage = require("qr-image");
 
 router.post("/new-track", (req, res) => {
+  console.log(req.body)
   db.Track.create({
     UserId: req.body.UserId,
     code: req.body.code,
@@ -14,11 +15,14 @@ router.post("/new-track", (req, res) => {
       res.send(JSON.stringify(newTrack.id));
     }
   });
-
-  QRCode.toDataURL(req.body.code, function (err, url) {
-    QRCode.toFile("./config/QRCode.png", req.body.code);
-  });
 });
+
+router.post("/new-QRCode", (req, res) => {
+  QRCode.toDataURL(req.body.code).then((url) => {
+    QRCode.toFile("./config/QRCode.png", req.body.code);
+    res.send(JSON.stringify(url));
+  });
+})
 
 router.post("/track/generate-code", (req, res) => {
   const url = req.body.code;
